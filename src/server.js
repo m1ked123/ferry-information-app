@@ -4,11 +4,8 @@ var config = require("../config/config.json")
 
 var app = express()
 
-// TODO: Place the API Key into an untracked config file
 var baseUrl = "https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vessellocations?";
 
-// TODO: Get the API key from the server config file
-// var apiKey = JSON.parse()
 var apiKey = config.apiKey;
 var apiAccessCode = "apiaccesscode=" + apiKey;
 var requestUrl = baseUrl + apiAccessCode;

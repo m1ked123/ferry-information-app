@@ -11,12 +11,13 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "build": "npm run clean:deploy && npm run build:html && npm run build:js && npm run build:css && npm run build:lib",
+    "build": "npm run clean:deploy && npm run build:config && npm run build:html && npm run build:js && npm run build:css && npm run build:lib",
     "clean:deploy": "rm -rf ./app/*",
     "build:html": "cp ./src/index.html app/index.html",
     "build:js": "cp ./src/ferry.js app/ferry.js",
     "build:css": "cp ./src/ferry.css app/ferry.css",
     "build:lib": "mkdir ./app/lib && mkdir ./app/lib/leaflet && cp -R ./node_modules/leaflet/dist/* ./app/lib/leaflet",
+    "build:config": "mkdir -p ./config",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
