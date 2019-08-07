@@ -1,0 +1,38 @@
+{
+  "name": "ferry-info-app",
+  "version": "1.0.0",
+  "description": "This application allows a user to check the current status of a ferry traveling through Puget Sound.",
+  "main": "app.js",
+  "config": {
+    "build_dir": "app"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "build": "npm run clean:deploy && npm run build:html && npm run build:js && npm run build:css && npm run build:lib",
+    "clean:deploy": "rm -rf ./app/*",
+    "build:html": "cp ./src/index.html app/index.html",
+    "build:js": "cp ./src/ferry.js app/ferry.js",
+    "build:css": "cp ./src/ferry.css app/ferry.css",
+    "build:lib": "mkdir ./app/lib && mkdir ./app/lib/leaflet && cp -R ./node_modules/leaflet/dist/* ./app/lib/leaflet",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.m1ked123.com/m1ked123/ferry-information"
+  },
+  "keywords": [
+    "ferry",
+    "wsf"
+  ],
+  "author": "Michael Davis",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-generator": "^4.16.0",
+    "leaflet": "^1.4.0",
+    "request": "^2.88.0"
+  }
+}
