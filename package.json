@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.m1ked123.com/m1ked123/ferry-information"
+    "url": ""
   },
   "keywords": [
     "ferry",
@@ -31,9 +31,9 @@
   "author": "Michael Davis",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
-    "express-generator": "^4.16.0",
-    "leaflet": "^1.4.0",
+    "express": "^4.17.1",
+    "express-generator": "^4.16.1",
+    "leaflet": "^1.6.0",
     "request": "^2.88.0"
   }
 }
