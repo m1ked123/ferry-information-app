@@ -3,13 +3,14 @@
 var express = require("express");
 var router = express.Router();
 var request = require("request");
-var config = require("./config.json");
+require('dotenv').config()
 
 var baseUrl = "https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vessellocations?";
 
-var apiKey = config.apiKey;
-var apiAccessCode = "apiaccesscode=" + apiKey;
+var apiAccessCode = "apiaccesscode=" + process.env.API_KEY;
 var requestUrl = baseUrl + apiAccessCode;
+console.log(requestUrl)
+
 var requestOptions = {
     uri: requestUrl,
     method: "GET",
