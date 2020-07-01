@@ -9,7 +9,6 @@ var baseUrl = "https://www.wsdot.wa.gov/Ferries/API/Vessels/rest/vessellocations
 
 var apiAccessCode = "apiaccesscode=" + process.env.API_KEY;
 var requestUrl = baseUrl + apiAccessCode;
-console.log(requestUrl)
 
 var requestOptions = {
     uri: requestUrl,
