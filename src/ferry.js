@@ -1,5 +1,7 @@
 "use strict";
 
+const L = require("leaflet");
+
 (function () {
 	var map = null;
 	var cartodbBasemap = "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png";
@@ -9,7 +11,7 @@
 
 	window.onload = function () {
 		loadMap();
-		sendRequest();
+		getFerryLocations();
 		setRefreshTimer();
 	};
 
@@ -61,11 +63,11 @@
 
 	// Sends an AJAX request to the proxy script that brockers the
 	// communication with the app and WSDOT's REST API
-	function sendRequest() {
+	function getFerryLocations() {
 		var ajaxRequest = new XMLHttpRequest();
 		ajaxRequest.onload = getData;
 		ajaxRequest.onerror = ajaxFailure;
-		ajaxRequest.open("GET", "http://localhost:8081/getferrydata", true);
+		ajaxRequest.open("GET", "http://localhost:3000/ferryinfo", true);
 		ajaxRequest.send();
 	}
 
@@ -80,12 +82,14 @@
 				var position = [vessel.Latitude, vessel.Longitude];
 				var markerStyle = getStyle(vessel.ScheduledDeparture, vessel.LeftDock);
 				var marker = getVessel(vessel.VesselID);
+				var result = creatMarkerSVG(markerStyle.fillColor, vessel.Heading);
+				var ferryIcon = L.divIcon({html:result, className: "vesselMarker"});
 				if (marker) {
 					marker.setLatLng(position);
-					marker.setStyle(markerStyle);
+					marker.setIcon(ferryIcon);
 					marker.setPopupContent(getPopupContent(vessel));
 				} else {
-					marker = L.circleMarker(position, markerStyle);
+					marker = L.marker(position, {icon: ferryIcon});
 					marker.addTo(map);
 					marker.bindPopup(getPopupContent(vessel));
 					vessels.push({
@@ -99,7 +103,7 @@
 
 	function setRefreshTimer() {
 		var refreshTimer = window.setInterval(function () {
-			sendRequest();
+			getFerryLocations();
 		}, 5000);
 	}
 
@@ -109,12 +113,7 @@
 		var onTime = isOnTime(scheduledDepart, actualDepart);
 		// TODO: Make the marker style an elongated triangle or compass
 		var style = {
-			radius: 8,
-			fillColor: "#455a64",
-			color: "#fff",
-			weight: 1,
-			opacity: 1,
-			fillOpacity: 0.8
+			fillColor: "#455a64"
 		};
 		if (scheduledDepart && actualDepart) {
 			style.fillColor = getColor(onTime);
@@ -232,5 +231,43 @@
 		} else {
 			return null;
 		}
+	}
+
+	function creatMarkerSVG(color, rotation) {
+		var xmlns = "http://www.w3.org/2000/svg";
+		var boxWidth = 24;
+		var boxHeight = 24;
+	
+		var svgElem = document.createElementNS(xmlns, "svg");
+		svgElem.setAttributeNS(null, "viewBox", "0 0 " + boxWidth + " " + boxHeight);
+		svgElem.setAttributeNS(null, "width", boxWidth);
+		svgElem.setAttributeNS(null, "height", boxHeight);
+		svgElem.setAttributeNS(null, "transform", "rotate(" + rotation + ")");
+		svgElem.setAttributeNS(null, "fill", color);
+	
+		var borderCoords = "M0 ";
+		borderCoords += "0h";
+		borderCoords += "24v";
+		borderCoords += "24h";
+		borderCoords += "0z";
+	
+		var borderPath = document.createElementNS(xmlns, "path");
+		borderPath.setAttributeNS(null, 'd', borderCoords);
+		borderPath.setAttributeNS(null, "fill", "none");
+		svgElem.appendChild(borderPath);
+
+		var fillCoords = "M12 ";
+		fillCoords += "2L4.5 ";
+		fillCoords += "20.29l.71.71L12 ";
+		fillCoords += "18l6.79 3 ";
+		fillCoords += ".71-.71z";
+	
+		var fillPath = document.createElementNS(xmlns, "path");
+		fillPath.setAttributeNS(null, 'd', fillCoords);
+		fillPath.setAttributeNS(null, "fill-opacity", "0.7");
+		
+		svgElem.appendChild(fillPath);
+
+		return svgElem.outerHTML;
 	}
 })();
