@@ -1,39 +1,20 @@
 {
-  "name": "ferry-info-app",
-  "version": "1.0.0",
-  "description": "This application allows a user to check the current status of a ferry traveling through Puget Sound.",
-  "main": "app.js",
-  "config": {
-    "build_dir": "app"
-  },
-  "directories": {
-    "test": "test"
-  },
+  "name": "ferry-information-app",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "node src/server.js",
-    "build": "npm run clean:deploy && npm run build:config && npm run build:html && npm run build:js && npm run build:css && npm run build:lib",
-    "clean:deploy": "rm -rf ./app/*",
-    "build:html": "cp ./src/index.html app/index.html",
-    "build:js": "cp ./src/ferry.js app/ferry.js",
-    "build:css": "cp ./src/ferry.css app/ferry.css",
-    "build:lib": "mkdir ./app/lib && mkdir ./app/lib/leaflet && cp -R ./node_modules/leaflet/dist/* ./app/lib/leaflet",
-    "build:config": "mkdir -p ./config",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www",
+    "build": "rm -rf public/ && mkdir public/ && cp stylesheets/* public/ && browserify src/ferry.js -o public/bundle.js && cp -r node_modules/ public/node_modules"
   },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "keywords": [
-    "ferry",
-    "wsf"
-  ],
-  "author": "Michael Davis",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "express-generator": "^4.16.1",
+    "browserify": "^16.5.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
     "leaflet": "^1.6.0",
-    "request": "^2.88.0"
+    "morgan": "~1.9.1",
+    "pug": "^3.0.0",
+    "request": "^2.88.2"
   }
 }
