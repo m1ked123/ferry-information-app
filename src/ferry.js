@@ -67,7 +67,7 @@ const L = require("leaflet");
 		var ajaxRequest = new XMLHttpRequest();
 		ajaxRequest.onload = getData;
 		ajaxRequest.onerror = ajaxFailure;
-		ajaxRequest.open("GET", "http://localhost:3000/ferryinfo", true);
+		ajaxRequest.open("GET", "ferryinfo", true);
 		ajaxRequest.send();
 	}
 
@@ -104,7 +104,7 @@ const L = require("leaflet");
 	function setRefreshTimer() {
 		var refreshTimer = window.setInterval(function () {
 			getFerryLocations();
-		}, 5000);
+		}, 10000);
 	}
 
 	// Gets a map marker style that represents a ferry that has either
