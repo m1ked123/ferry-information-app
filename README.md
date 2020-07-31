@@ -1,6 +1,6 @@
 # Ferry Information Application
 
-The new incarnation of the Ferry Information Application. This project includes all of the code for the web application.
+The new incarnation of the Ferry Information Application. This project includes all of the code for the web application. A working, demo of this application can be found at https://royal-loonie-56613.herokuapp.com/.
 
 ## Install Instructions
 To run this project on your own computer, including standing up the necessary ExpressJS server, use the following steps:
